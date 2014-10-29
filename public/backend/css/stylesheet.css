@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'momsdinermedium';
+    src: url('momsdiner-webfont.eot');
+    src: url('momsdiner-webfont.eot?#iefix') format('embedded-opentype'),
+         url('momsdiner-webfont.woff') format('woff'),
+         url('momsdiner-webfont.ttf') format('truetype'),
+         url('momsdiner-webfont.svg#momsdinermedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
