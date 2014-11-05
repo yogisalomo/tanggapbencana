@@ -10,8 +10,8 @@ return array(
 	| Set the public and private API keys as provided by reCAPTCHA.
 	|
 	*/
-	'public_key'	=> '6Lerg_USAAAAAMyk18dZesnaDmH-Nm6oRppmvkCm',
-	'private_key'	=> '6Lerg_USAAAAAB76nswpAW1q-fqKNwXM-JJGO8kK',
+	'public_key'	=> '6Le_WvUSAAAAAMW9oaGnJkSQb5Wq7Syme7Z_9n2I',
+	'private_key'	=> '6Le_WvUSAAAAAKDCvvtYS_JEy3SdzsZ6qCBUKith',
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -22,5 +22,10 @@ return array(
 	|
 	*/
 	'template'		=> '',
+
+	'options' => array(
+        'theme' => 'custom',
+        'custom_theme_widget' => 'recaptcha_widget'
+    ),
 	
 );

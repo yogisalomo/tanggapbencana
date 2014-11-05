@@ -5,157 +5,79 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends GenericModel implements UserInterface,RemindableInterface{
+class User extends Eloquent implements UserInterface, RemindableInterface {
 
-    use UserTrait, RemindableTrait;
+	use UserTrait, RemindableTrait;
 
-    public $table = 'users';
+	/**
+	 * The database table used by the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'users';
 
-    public $fillable = [
-        'username',
-        'password',
-        'picture',
-        'first_name',
-        'last_name',
-        'birthdate',
-        'address_street',
-        'address_city',
-        'address_province',
-        'address_country',
-        'newsletter',
-        'phone_number',
-        'email',
-        'last_visit',
-        'role',
-        'status',
-        'is_premium',
-        'premium_expired_date',
-        'registration_date',
-        'escrow_amount'
-    ];
+	protected $fillable = ['username', 'password', 'email', 'role'];
 
-    public $rules = [
-        'username'=> 'required|unique:users',
-        'password' => 'required|between:8,25',
-        'first_name'=>'required',
-        'last_name'=>'required',
-        'role'=>'required',
-        'registration_date'=>'required',
-        'last_visit'=>'required',
-        'birthdate'=> 'required|date',
-        'email'=> 'required|email|unique:users',
-        'phone_number'=>'required'
-    ];
+	public $timestamps = false;
 
-    protected $hidden = array('password', 'remember_token');
+	protected $softDelete = true;
 
-    public function scopeBuyers($query){
-        return $query->where('role', '=', "buyer");
-    }
+	public $rules = [
+		'username' => 'required|unique:users',
+		'password' => '',
+		'email' => 'unique:users',
+		'role' => 'required'
+	];
 
-    public function scopeSellers($query){
-        return $query->where('role', '=', "seller");
-    }
+	/**
+	 * The attributes excluded from the model's JSON form.
+	 *
+	 * @var array
+	 */
+	protected $hidden = array('password', 'remember_token');
 
-    public function scopeCses($query){
-        return $query->where('role', '=', "cs");
-    }
-
-    public function scopeAdmins($query){
-        return $query->where('role', '=', "admin");
-    }
-
-
-    public function getPremiumExpiredDate(){
-        return ($this->premium_expired_date ? date("d m Y", strtotime($this->premium_expired_date)) : "N/A");
-    }
-
-    public function getEscrowAmount(){
-        return ($this->escrow_amount ? $this->escrow_amount : "0");
-    }
-
-    public static function getName($id){
-        $user = User::find($id);
-        if($user){
-            return $user->first_name . " " . $user->last_name;
-        } else {
-            return "Tidak ditemukan";
-        }
-    }
-
-    public function getFullName() {
-        return $this->first_name . " " . $this->last_name;
-    }
-
-    public function getPremium(){
-        return (($this->is_premium != null) ? ($this->is_premium == 1 ? "Yes" : "No") : "No");
-    }
-
-    public static function getFormalRoleName($role_code){
-        $roles = [ ['admin', 'Administrator'], ['cs officer', 'Customer Service'], ['buyer', 'Buyer'], ['seller', 'Seller'] ];
-        foreach($roles as $role){
-            if($role_code == $role[0]){
-                return $role[1];
-            }
-        }
-        return "Role not found";
-    }
-
-    public function getValidOrders($range){
-        $count = 0;
-
-        $orders = Order::where('user_id', '=', $this->id)->get();
-        foreach($orders as $order){
-            if($order->isOnRange($range)){
-                $count++;
-            }
-        }
-        return $count;
-    }
-
-    public function getMoneySpent($range){
-        $orders = Order::where('user_id', '=', $this->id)->get();
-        $moneyspent = 0;
-        foreach($orders as $order){
-            if($order->isOnRange($range)){
-                $moneyspent += $order->totalprice;
-            }
-        }
-
-        return $moneyspent;
-    }
-
-    public static $range = null;
-
-    public static function setRange($val){
-        //echo "Range set with: " . $val;
-        self::$range = $val;
-    }
-
-    public static function getRange(){
-        return self::$range;
-    }
-
-    public function updateLastvisit(){
-        $date = new datetime;
-        $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
-        $this->last_visit = $date;
-        $this->save();
-        return true;
-    }
-
-    public static function getSellerList(){
-        $sellers = User::sellers()->lists('first_name', 'id');
-
-        return $sellers;
-    }
-
-    public function checkTheProduct($product_id) {
-        $myproducts = Order::select('orders.*')
-            ->rightJoin('ordered_items', function($j) {
-                $j->on('ordered_items.order_id', '=', 'orders.id');
-            })->where('ordered_items.product_id', $product_id)
-            ->where('orders.user_id', $this->id)->count();
-        return $myproducts;
-    }
+	public function isValid($scenario = 'create')
+	{
+		$rules = $this->rules;
+		if ($scenario == 'update') {
+			$rules = [];
+			foreach ($this->rules as $key=>$value) {
+				$split = explode('|', $value);
+				$merged = [];
+				foreach ($split as $item) {
+					if (strpos($item, 'unique') === false) {
+						$merged[] = $item;
+					}
+				}
+				$rules[$key] = implode('|', $merged);
+			}
+		}
+		$v = Validator::make($this->attributes, $rules);
+		if ($v->passes()) return true;
+		$this->errors = $v->messages();
+		return false;
+	}
+	
+	public function isValidEdit($scenario = 'create', $input)
+	{
+		$rules = $this->rules;
+		$rules['password'] = 'confirmed';
+		if ($scenario == 'update') {
+			$rules = [];
+			foreach ($this->rules as $key=>$value) {
+				$split = explode('|', $value);
+				$merged = [];
+				foreach ($split as $item) {
+					if (strpos($item, 'unique') === false) {
+						$merged[] = $item;
+					}
+				}
+				$rules[$key] = implode('|', $merged);
+			}
+		}
+		$v = Validator::make($input, $rules);
+		if ($v->passes()) return true;
+		$this->errors = $v->messages();
+		return false;
+	}
 }

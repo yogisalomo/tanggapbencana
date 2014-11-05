@@ -1,14 +1,14 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'suitcommerce'
-set :repo_url, 'git@bitbucket.org:suitmedia/suitcommerce.git'
+set :application, 'suit_crm'
+set :repo_url, 'git@bitbucket.org:suitmedia/suitcrm.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/suitmedia/suitcommerce'
+set :deploy_to, '/home/suitmedia/suitcrm'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -37,11 +37,14 @@ set :linked_files, %w{app/config/database.php}
 namespace :deploy do
 
   desc 'Restart application'
+
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
-	  execute "chmod 777 -R #{release_path}"
+      # execute "composer update --"
+      # execute "php #{release_path}artisan migrate"
+      execute "chmod 777 -R #{release_path}"
     end
   end
 

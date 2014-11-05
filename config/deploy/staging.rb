@@ -16,9 +16,9 @@ role :db,  %w{suitmedia@202.67.10.2}
 # used to set extended properties on the server.
 
 server '202.67.10.2', user: 'suitmedia', roles: %w{web app}, ssh_options: {
-	user: "suitmedia",
-	forward_agent: true,
-	auth_methods: %w(password)
+    user: "suitmedia",
+    forward_agent: true,
+    auth_methods: %w(password)
 }
 
 

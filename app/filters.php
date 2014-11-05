@@ -13,13 +13,13 @@
 
 App::before(function($request)
 {
-    //
+	//
 });
 
 
 App::after(function($request, $response)
 {
-    //
+	//
 });
 
 /*
@@ -35,56 +35,76 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-    if (Auth::guest())
-    {
-        if (Request::ajax())
-        {
-            return Response::make('Unauthorized', 401);
-        }
-        else
-        {
-            return Redirect::guest('login');
-        }
-    }
+	if (Auth::guest())
+	{
+		if (Request::ajax())
+		{
+			return Response::make('Unauthorized', 401);
+		}
+		else
+		{
+			return Redirect::guest('login');
+		}
+	}
 });
 
 
-/* Administrator(s) filter, for all role that uses backend */
-Route::filter('admins', function(){
-
-    $allowedRoles = ['admin', 'cs officer'];
-
-    if (Auth::guest()) return Redirect::guest('login');
-
-    $allowed = false;
-    foreach($allowedRoles as $role){
-        if (Auth::user()->role == $role){
-            $allowed = true;
-            break;
-        }
-    }
-
-    if($allowed == false) return Redirect::to('');
-});
-
-
-/* Administrator filter */
-Route::filter('admin', function(){
-
-    if (Auth::guest()) return Redirect::guest('login');
-    if (Auth::user()->role != "admin") return Redirect::to('');
-});
-
-/* Customer service filter */
-Route::filter('cs officer', function()
+Route::filter('admin', function()
 {
-    if (Auth::guest()) return Redirect::guest('login');
-    if (Auth::user()->role != "cs officer") return Redirect::to('');
+	if (Auth::guest())
+	{
+		if (Request::ajax())
+		{
+			return Response::make('Unauthorized', 401);
+		}
+		else
+		{
+			return Redirect::guest('login');
+		}
+	} else {
+		if (Auth::user()->role != 'admin') {
+			if (Request::ajax())
+			{
+				return Response::make('Unauthorized', 401);
+			}
+			else
+			{
+				return Redirect::to('admin')->with('alert-danger', 'Operation Not Allowed');
+			}
+		}
+	}
 });
+
+Route::filter('manager', function()
+{
+	if (Auth::guest())
+	{
+		if (Request::ajax())
+		{
+			return Response::make('Unauthorized', 401);
+		}
+		else
+		{
+			return Redirect::guest('login');
+		}
+	} else {
+		if (Auth::user()->role != 'Admin' && Auth::user()->role != 'Manager') {
+			if (Request::ajax())
+			{
+				return Response::make('Unauthorized', 401);
+			}
+			else
+			{
+				return Redirect::to('admin')->with('alert-danger', 'Operation Not Allowed');
+			}
+		}
+	}
+});
+
 
 Route::filter('auth.basic', function()
 {
-    return Auth::basic();
+	return Auth::basic();
 });
 
 /*
@@ -100,7 +120,7 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-    if (Auth::check()) return Redirect::to('/');
+	if (Auth::check()) return Redirect::to('/');
 });
 
 /*
@@ -116,8 +136,8 @@ Route::filter('guest', function()
 
 Route::filter('csrf', function()
 {
-    if (Session::token() != Input::get('_token'))
-    {
-        throw new Illuminate\Session\TokenMismatchException;
-    }
+	if (Session::token() != Input::get('_token'))
+	{
+		throw new Illuminate\Session\TokenMismatchException;
+	}
 });
