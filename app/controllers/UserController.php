@@ -45,7 +45,7 @@ class UserController extends GenericController {
 		if (!empty($pass))
 			$this->db->password = Hash::make($pass);
 		$this->db->save();
-		return Redirect::route($this->names.'.index')->with('alert', studly_case($this->name).' created');
+		return Redirect::route('admin.'.$this->names.'.index')->with('alert', studly_case($this->name).' created');
 	}	
 
 	public function update($id)
@@ -64,6 +64,6 @@ class UserController extends GenericController {
 		else
 			$$name->password = $old;
 		$$name->save();
-		return Redirect::route($this->names.'.index')->with('alert', studly_case($this->name).' updated');
+		return Redirect::route('admin.'.$this->names.'.index')->with('alert', studly_case($this->name).' updated');
 	}
 }

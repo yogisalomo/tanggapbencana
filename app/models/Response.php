@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Response extends GenericModel {
+class Respon extends GenericModel {
 	
 	public $table = 'responses';
 

@@ -1,31 +1,6 @@
 @extends('layouts.master')
 
 @section('script')
-	
-<script>
-
-<?php function ajax_refresh($fields, $field) { ?>
-    $('#{{$fields}}-refresh').click(function (e) {
-        var $btn = $(this);
-        e.preventDefault();
-        $btn.fadeOut('fast');
-        $.get('{{url($fields.'/all')}}', function(data) {
-            var $model = $('#{{$field}}_id');
-            $model.empty();
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    console.log(key + '->' + data[key]);
-                    $model.append("<option value='"+ key +"'>" + data[key] + "</option>");        
-                }
-            }
-            $btn.fadeIn('fast');
-        });
-    });
-<?php } ?>
-
-<?php ajax_refresh('salespersons', 'salesperson') ?>
-
-</script>
 
 @stop
 
@@ -36,7 +11,7 @@
 			<h1>New User</h1>
 			
 			<div class="well">
-			{{Form::open(['route'=>'users.store'])}}
+			{{Form::open(['route'=>'admin.users.store'])}}
 				
 				<div class="form-group">
 					{{Form::label('username', 'Username')}}
@@ -49,31 +24,48 @@
 					{{Form::password('password', ['class'=>'form-control'])}}
 					{{$errors->first('password')}}
 				</div>
-
+				
 				<div class="form-group">
-					{{Form::label('salesperson_id', 'Salesperson')}}
-					{{Form::select('salesperson_id', Salesperson::lists('name', 'id'), null, ['class'=>'form-control'])}}
-					{{$errors->first('salesperson_id')}}
+					{{Form::label('first_name', 'First Name')}}
+					{{Form::text('first_name', null, ['class'=>'form-control'])}}
+					{{$errors->first('first_name')}}
 				</div>
-
+				
 				<div class="form-group">
-					<a href="{{url('salespersons/create')}}" target="_blank" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> New Sales Person</a> 
-					<a href="#" class="btn btn-sm btn-primary" id="salespersons-refresh"><span class="glyphicon glyphicon-refresh"></span></a>
+					{{Form::label('last_name', 'Last Name')}}
+					{{Form::text('last_name', null, ['class'=>'form-control'])}}
+					{{$errors->first('last_name')}}
+				</div>
+				
+				<div class="form-group">
+					{{Form::label('phone', 'Phone')}}
+					{{Form::text('phone', null, ['class'=>'form-control'])}}
+					{{$errors->first('phone')}}
+				</div>
+				
+				<div class="form-group">
+					{{Form::label('address', 'Address')}}
+					{{Form::textarea('address', null, ['class'=>'form-control'])}}
+					{{$errors->first('address')}}
+				</div>
+				
+				<div class="form-group">
+					{{Form::label('email', 'Email')}}
+					{{Form::text('email', null, ['class'=>'form-control'])}}
+					{{$errors->first('email')}}
 				</div>
 
 				<div class="form-group">
 					{{Form::label('role', 'Role')}}
 					{{Form::select('role', [
-						'Sales'=>'Sales',
-						'Manager'=>'Manager',
-						'Admin'=>'Admin',
+						'user'=>'user',
+						'admin'=>'admin',
 					], null, ['class'=>'form-control'])}}
 					{{$errors->first('role')}}
 				</div>
 
 				<div class="form-group">
 					{{Form::submit('Save', ['class'=>'btn btn-primary'])}}
-					{{Form::submit('Save & Add Another', ['class'=>'btn btn-success'])}}
 				</div>
 
 			{{Form::close()}}

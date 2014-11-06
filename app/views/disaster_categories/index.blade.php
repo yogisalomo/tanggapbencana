@@ -19,64 +19,41 @@
 @stop
 
 @section('content')
-<h3>vendor</h3>
+<h3>disaster_category</h3>
 <div class="row">
     <div class="col-lg-4">
         <div class="well">
-        {{Form::model($vendor, ['route'=>['vendors.update', $vendor->id], 'method' => 'PUT'])}}
+        {{Form::open(['route'=>'admin.disaster_categories.store'])}}
             <div class="form-group">
                 {{Form::label('name', 'Name')}}
                 {{Form::text('name', null, ['class'=>'form-control', 'rows' => 2])}}
                 {{$errors->first('name')}}
             </div>
             <div class="form-group">
-                {{Form::label('area_of_expertise', 'area_of_expertise')}}
-                {{Form::text('area_of_expertise', null, ['class'=>'form-control', 'rows' => 2])}}
-                {{$errors->first('area_of_expertise')}}
-            </div>
-            <div class="form-group">
-                {{Form::label('contract_status', 'contract_status')}}
-                {{Form::text('contract_status', null, ['class'=>'form-control', 'rows' => 2])}}
-                {{$errors->first('contract_status')}}
-            </div>
-            <div class="form-group">
-                {{Form::label('performance_score', 'performance_score')}}
-                {{Form::text('performance_score', null, ['class'=>'form-control', 'rows' => 2])}}
-                {{$errors->first('performance_score')}}
-            </div>
-            <div class="form-group">
                 {{Form::submit('Add', ['class'=>'btn btn-primary', 'style'=>'width:100%'])}}
             </div>
         {{Form::close()}}
         </div>
-
     </div>
     <div class="col-lg-8">
         <div class="well"> <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Expertise Area</th>
-                    <th>Contract Status</th>
-                    <th>Performace Score</th>
                     <th>Menu</th>
                 </tr>
             </thead>
      
      
             <tbody>
-                @foreach ($vendors as $vendor)
-                    
+                @foreach ($disaster_categories as $disaster_category)
                     <tr>
-                        <td >{{$vendor->name}}</td>
-                        <td >{{$vendor->area_of_expertise}}</td>
-                        <td >{{$vendor->contract_status}}</td>
-                        <td >{{$vendor->performance_score}}</td>
+                        <td >{{$disaster_category->name}}</td>
                         <td style="text-align:center">
-                            <a href="{{url('vendors/'.$vendor->id.'/edit')}}" class="btn btn-sm btn-success">
+                            <a href="{{url('admin/disaster_categories/'.$disaster_category->id.'/edit')}}" class="btn btn-sm btn-success">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a> 
-                            <a href="{{url('vendors/destroy/'.$vendor->id)}}" class="btn btn-sm btn-primary" onClick="return confirm('Are you sure you want to delete?')">
+                            <a href="{{url('admin/disaster_categories/destroy/'.$disaster_category->id)}}" class="btn btn-sm btn-primary" onClick="return confirm('Are you sure you want to delete?')">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </td>

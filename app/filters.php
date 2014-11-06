@@ -62,7 +62,7 @@ Route::filter('admin', function()
 			return Redirect::guest('login');
 		}
 	} else {
-		if (Auth::user()->role != 'admin') {
+		if (strtolower(Auth::user()->role) != 'admin') {
 			if (Request::ajax())
 			{
 				return Response::make('Unauthorized', 401);

@@ -36,7 +36,7 @@ class GenericController extends BaseController {
 		$input = Input::all();
 		if (! $this->db->fill($input)->isValid()) {
 			if (Input::get('redirect'))
-				return Redirect::route($this->names.'.create')->withInput();
+				return Redirect::route('admin.'.$this->names.'.create')->withInput();
 			else 
 				return Redirect::back()->withInput()->withErrors($this->db->errors);
 		}
@@ -47,16 +47,16 @@ class GenericController extends BaseController {
 		if (Input::get('redirect'))
 			return Redirect::to(Input::get('redirect'))->with('alert', studly_case($this->name).' created');
 		else 
-			return Redirect::route($this->names.'.index')->with('alert', studly_case($this->name).' created');
+			return Redirect::route('admin.'.$this->names.'.index')->with('alert', studly_case($this->name).' created');
 		// } else {
-		// 	return Redirect::route($this->names.'.create')->with('alert', $this->name.' created');
+		// 	return Redirect::route('admin.'.$this->names.'.create')->with('alert', $this->name.' created');
 		// }
 	}
 
 	public function destroy($id)
 	{
 		$this->db->destroy($id);
-		return Redirect::route($this->names.'.index')->with('alert', studly_case($this->name).' deleted');
+		return Redirect::route('admin.'.$this->names.'.index')->with('alert', studly_case($this->name).' deleted');
 	}
 	
 	public function edit($id)
@@ -78,7 +78,7 @@ class GenericController extends BaseController {
 		}
 
 		$$name->save();
-		return Redirect::route($this->names.'.index')->with('alert', studly_case($this->name).' updated');
+		return Redirect::route('admin.'.$this->names.'.index')->with('alert', studly_case($this->name).' updated');
 	}
 
 	public function fileUpload($field = 'file_document', $name = 'file_name', $exts = [], $data_provider)

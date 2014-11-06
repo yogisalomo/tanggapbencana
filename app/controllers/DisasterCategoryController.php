@@ -10,4 +10,5 @@ class DisasterCategoryController extends GenericController {
 		$this->db = $disaster_category;
 	}
 
+
 }

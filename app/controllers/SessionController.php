@@ -18,7 +18,7 @@ class SessionController extends BaseController {
 	public function store()
 	{
 		$rules = [
-			'recaptcha_response_field' => 'required|recaptcha',
+			'recaptcha_response_field' => '',
 		];
 		$v = Validator::make(Input::all(), $rules);
 		if ($v->passes()) {

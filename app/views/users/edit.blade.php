@@ -7,15 +7,11 @@
 			<h1>Edit User</h1>
 			
 			<div class="well">
-			@if (@Auth::user()->role == 'Admin')
-				{{Form::model($user, ['route'=>['users.update', $user->id], 'method' => 'PUT'])}}
-			@else
-				{{Form::model($user, ['url'=>'user/update'])}}
-			@endif
+			{{Form::model($user, ['route'=>['admin.users.update', $user->id], 'method' => 'PUT'])}}
 				
 				<div class="form-group">
 					{{Form::label('username', 'Username')}}
-					{{Form::text('username', null, ['class'=>'form-control'])}}
+					{{Form::text('username', $user->username, ['class'=>'form-control'])}}
 					{{$errors->first('username')}}
 				</div>
 
@@ -24,47 +20,48 @@
 					{{Form::password('password', ['class'=>'form-control'])}}
 					{{$errors->first('password')}}
 				</div>
-
+				
 				<div class="form-group">
-					{{Form::label('password_confirmation', 'Password Confirmation')}}
-					{{Form::password('password_confirmation', ['class'=>'form-control'])}}
-					{{$errors->first('password_confirmation')}}
+					{{Form::label('first_name', 'First Name')}}
+					{{Form::text('first_name', $user->first_name, ['class'=>'form-control'])}}
+					{{$errors->first('first_name')}}
+				</div>
+				
+				<div class="form-group">
+					{{Form::label('last_name', 'Last Name')}}
+					{{Form::text('last_name', $user->last_name, ['class'=>'form-control'])}}
+					{{$errors->first('last_name')}}
+				</div>
+				
+				<div class="form-group">
+					{{Form::label('phone', 'Phone')}}
+					{{Form::text('phone', $user->phone, ['class'=>'form-control'])}}
+					{{$errors->first('phone')}}
+				</div>
+				
+				<div class="form-group">
+					{{Form::label('address', 'Address')}}
+					{{Form::textarea('address', $user->address, ['class'=>'form-control'])}}
+					{{$errors->first('address')}}
+				</div>
+				
+				<div class="form-group">
+					{{Form::label('email', 'Email')}}
+					{{Form::text('email', $user->email, ['class'=>'form-control'])}}
+					{{$errors->first('email')}}
 				</div>
 
-				@if (@Auth::user()->role == 'Admin')
-					<div class="form-group">
-						{{Form::label('salesperson_id', 'Sales Person')}}
-						{{Form::select('salesperson_id', Salesperson::lists('name', 'id'), null, [
-							'class'=>'form-control'
-						])}}
-					</div>
-				@endif
-
-
-				@if (@Auth::user()->role == 'Admin')
-					<div class="form-group">
-						<a href="{{url('salespersons/create')}}" target="_blank" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> New Sales Person</a> 
-						<a href="{{url('salespersons/'.$user->salesperson_id.'/edit')}}" target="_blank" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil"></span> Edit Sales Person</a>
-						{{$errors->first('salesperson_id')}}
-					</div>
-				@endif
-				
-				@if (@Auth::user()->role == 'Admin')
-					<div class="form-group">
-						{{Form::label('role', 'Role')}}
-						{{Form::select('role', [
-							'Sales'=>'Sales',
-							'Manager'=>'Manager',
-							'Admin'=>'Admin',
-						], null, [
-							'class'=>'form-control'
-						])}}
-						{{$errors->first('role')}}
-					</div>
-				@endif
+				<div class="form-group">
+					{{Form::label('role', 'Role')}}
+					{{Form::select('role', [
+						'user'=>'user',
+						'admin'=>'admin',
+					], $user->role, ['class'=>'form-control'])}}
+					{{$errors->first('role')}}
+				</div>
 
 				<div class="form-group">
-					{{Form::submit('Save', ['class'=>'btn btn-primary', 'style'=>'width:100%'])}}
+					{{Form::submit('Save', ['class'=>'btn btn-primary'])}}
 				</div>
 
 			{{Form::close()}}

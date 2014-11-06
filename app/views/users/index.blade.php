@@ -20,15 +20,13 @@
 
 @section('content')
 
-    <a href="{{url('users/create')}}" class="btn btn-primary form-control"><span class="glyphicon glyphicon-plus-sign"></span> New User</a>
+    <a href="{{url('admin/users/create')}}" class="btn btn-primary form-control"><span class="glyphicon glyphicon-plus-sign"></span> New User</a>
     <hr>
     
     <div class="well"> <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Username</th>
-                <th>Salesperson</th>
-                <th>Email</th>
                 <th>Role</th>
                 <th>Menu</th>
             </tr>
@@ -40,14 +38,12 @@
                 
                 <tr>
                     <td>{{$user->username}}</td>
-                    <td>{{@$user->salesperson->name}}</td>
-                    <td>{{@$user->salesperson->email}}</td>
                     <td>{{$user->role}}</td>
                     <td style="text-align:center">
-                        <a href="{{url('users/'.$user->id.'/edit')}}" class="btn btn-sm btn-success">
+                        <a href="{{url('admin/users/'.$user->id.'/edit')}}" class="btn btn-sm btn-success">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a> 
-                        <a href="{{url('users/destroy/'.$user->id)}}" class="btn btn-sm btn-primary" onClick="return confirm('Are you sure you want to delete?')">
+                        <a href="{{url('admin/users/destroy/'.$user->id)}}" class="btn btn-sm btn-primary" onClick="return confirm('Are you sure you want to delete?')">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
                     </td>
