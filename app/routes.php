@@ -1,8 +1,6 @@
 <?php
 
-Route::get('/', function() {
-	return Redirect::to('admin');
-});
+Route::get('/', 'FrontEndController@getIndex');
 
 Route::get('createuser', function() {
 	User::create([
