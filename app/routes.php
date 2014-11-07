@@ -4,7 +4,7 @@ Route::get('/', 'FrontEndController@getIndex');
 
 /** SMS untuk send sama receive **/
 Route::get('sms/send/{txt}','SMSController@send');
-Route::get('sms/recv/','SMSController@recv')
+Route::get('sms/recv/','SMSController@recv');
 
 
 Route::get('createuser', function() {
