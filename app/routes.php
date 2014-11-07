@@ -61,6 +61,8 @@ Route::group(['before' => 'admin'], function() {
 	Route::get('admin/users/destroy/{id}', 'UserController@destroy');
 	Route::resource('admin/users', 'UserController');
 
+	Route::controller('admin/statistics', 'DisasterStatController');
+
 });
 
 HTML::macro('nav_link', function($route, $text) {

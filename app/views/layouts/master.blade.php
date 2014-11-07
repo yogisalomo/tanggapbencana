@@ -102,6 +102,7 @@
                                     {{HTML::nav_link("admin/requests", 'Request')}}
                                     {{HTML::nav_link("admin/responses", 'Response')}}
                                     {{HTML::nav_link("admin/reports", 'Report')}}
+                                    {{HTML::nav_link("admin/statistics", 'Disaster Statistics')}}
                                 </ul>
                             </li>
                         @endif
