@@ -20,8 +20,17 @@ class SMSController extends BaseController {
 
 		foreach ($hasil_json->messages as $row) {
 			if ($row->status == "received") {
-				echo "Pesan : ".$row->body."\n";
+				echo "Pesan : ".$row->body."<br>";
 			}
+		}
+	}
+
+	public function recvdebug() {
+		$output = shell_exec("curl -X GET '".$this->API_URL."' -u ".$this->API_AUTH);
+		$hasil_json = json_decode($output);
+
+		foreach ($hasil_json->messages as $row) {
+			var_dump($row);
 		}
 	}
 }
