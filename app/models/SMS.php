@@ -26,8 +26,8 @@ class SMS extends Eloquent {
 				$temp['date_updated'] = $row->date_updated;
 				$temp['date_sent'] = $row->date_sent;
 				$temp['body'] = $row->body;
+				$hasil[] = $temp;
 			}
-			$hasil[] = $temp;
 		}
 		return $hasil;
 	}
