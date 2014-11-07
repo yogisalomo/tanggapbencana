@@ -26,6 +26,7 @@ class SMSController extends BaseController {
 	}
 
 	public function recvdebug() {
+		//->sid, ->date_created, ->date_updated, ->date_sent
 		$output = shell_exec("curl -X GET '".$this->API_URL."' -u ".$this->API_AUTH);
 		$hasil_json = json_decode($output);
 
