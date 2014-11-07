@@ -37,7 +37,7 @@
                   var marker = new google.maps.Marker({
                       position: new google.maps.LatLng(locations[i][3],locations[i][4]),
                       map: map,
-                      title: "By "+locations[i][0]
+                      title: locations[i][1]
                   });
                   var updateStatus = "updatestatus/"+locations[i][5];
                   google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -47,15 +47,8 @@
                   '</div>'+
                     '<h1 id="firstHeading" class="firstHeading">By '+locations[i][0]+'</h1>'+
                     '<div id="bodyContent">'+
-                        '<img src="'+locations[i][2]+'"/>'+
-                        '<form method="POST" action="{{url("updatestatus")}}/'+locations[i][5]+'">'+
-                            '<label>Oleh:'+locations[i][0]+'</label><br>'+
-                            '<label>'+locations[i][1]+'</label><br>'+
-                            '<label>Current Status : '+locations[i][6]+'</label><br>'+
-                            '{{Form::label("Update Status Report :")}}'+
-                            '{{Form::select("newstatus",array(0=>"Belum direspon",1=>"Ditunda",2=>"Sedang Dikerjakan", 3=>"Selesai", 4=>"Tidak Layak",5=>"SPAM"),["class"=>"form_control"])}}<br>'+
-                            '{{Form::submit("Update", array("class"=>"btn btn-info"))}}'+
-                        '{{Form::close()}}'+
+                        '<p>Berlangsung sejak: '+locations[i][2]+'</p><br>'+
+                        '<p>Status: '+locations[i][6]+'</p><br>'+
                     '</div>'+
                   '</div>');
                       infowindow.open(map, marker);
