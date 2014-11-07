@@ -15,7 +15,7 @@ class SMSController extends BaseController {
 
 	public function recv(){
 		/* Get received messages */
-		$output = shell_exec("curl -X GET '".$this->API_URL"' -u ".$this->API_AUTH);
+		$output = shell_exec("curl -X GET '".$this->API_URL."' -u ".$this->API_AUTH);
 		$hasil_json = json_decode($output);
 
 		foreach ($hasil_json->messages as $row) {
