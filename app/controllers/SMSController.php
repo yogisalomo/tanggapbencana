@@ -19,7 +19,9 @@ class SMSController extends BaseController {
 		$hasil_json = json_decode($output);
 
 		foreach ($hasil_json->messages as $row) {
-			var_dump($row);
+			if ($row->status == "received") {
+				echo "Pesan : ".$row->body."\n";
+			}
 		}
 	}
 }
