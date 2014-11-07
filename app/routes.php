@@ -2,6 +2,10 @@
 
 Route::get('/', 'FrontEndController@getIndex');
 
+/** SMS untuk send sama receive **/
+Route::get('sms/send/{txt}','SMSController@send');
+
+
 Route::get('createuser', function() {
 	User::create([
 		'username' => 'admin',
@@ -18,6 +22,7 @@ Route::get('createuser', function() {
 
 Route::get('login', 'SessionController@create');
 Route::get('logout', 'SessionController@destroy');
+
 
 Route::resource('sessions', 'SessionController');
 
