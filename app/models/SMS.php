@@ -6,9 +6,9 @@ class SMS extends Eloquent {
 	public function send($body) {
 		$TO = '+628561435232';
 		$FROM = '+12027596195';
-		$output = shell_exec("curl -X POST '".$this->API_URL."' --data-urlencode 'To=".$TO."' 
-							--data-urlencode 'From=".$FROM."' --data-urlencode 
-							'Body=".$body."' -u ".$this->API_AUTH);
+		$eksekusi = "curl -X POST '".$this->API_URL."' --data-urlencode 'To=".$TO."' --data-urlencode 'From=".$FROM."' --data-urlencode 'Body=".$body."' -u ".$this->API_AUTH;
+		var_dump($eksekusi);
+		$output = shell_exec($eksekusi);
 		return $output;
 	}
 
