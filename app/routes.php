@@ -3,9 +3,10 @@
 Route::get('/', 'FrontEndController@getIndex');
 
 /** SMS untuk send sama receive **/
-Route::get('sms/send/{txt}','SMSController@send');
-Route::get('sms/recv/','SMSController@recv');
-Route::get('sms/recvdebug/','SMSController@recvdebug');
+Route::get('/sms/send/{txt}','SMSController@send');
+Route::get('/sms/recvSync/','SMSController@recvSync');
+Route::get('/sms/insert/','SMSController@insert');
+Route::get('/sms/recvdebug/','SMSController@recvdebug');
 
 
 Route::get('createuser', function() {

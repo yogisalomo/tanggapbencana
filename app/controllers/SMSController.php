@@ -16,9 +16,22 @@ class SMSController extends BaseController {
 		var_dump($res);
 	}
 
+	public function recvSync() {
+		$this->SMS->recvToDB();
+	}
+	
 	public function recv(){
 		/* Get received messages */
-		$res = $this->SMS->recv();
-		var_dump($res);
+		$data['res'] = $res;
+		return View::make('SMS.recv',$data);
+	}
+
+	public function insert() {
+		$arr['nama_disaster'] = "gunung meletus";
+		$arr['longitude'] = "107.9";
+		$arr['lattitude'] = "-62.7";
+		$arr['judul_laporan'] = "Butuh makanan";
+		$arr['isi_laporan'] = "Butuh Indomie gan";
+		$this->SMS->insert($arr);
 	}
 }
