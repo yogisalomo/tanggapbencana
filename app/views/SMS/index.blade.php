@@ -9,11 +9,18 @@
     <script>
 
         $(document).ready(function() {
-            $('#table').dataTable({
+            var table = $('#table').dataTable({
                "scrollX": true
             });
-        });
 
+            $('#syncSMS').click(function(){
+                var URL = '<?=URL::to('/sms/recvSync');?>';
+                $.get(URL, function( data ) {
+                    table.fnDraw();
+                    alert(data);
+                });
+            });
+        });
     </script>
 
 @stop
@@ -23,7 +30,7 @@
 <div class="row">
     <div class="col-lg-4">
         <div class="well">
-            a
+            <a href="#SMSSync" id="syncSMS">Sync from SMS Gateway</a>
         </div>
     </div>
     <div class="col-lg-8">
