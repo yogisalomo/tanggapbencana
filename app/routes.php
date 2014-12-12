@@ -6,7 +6,6 @@ Route::get('/', 'FrontEndController@getIndex');
 Route::get('/sms/send/{txt}','SMSController@send');
 Route::get('/sms/recvSync/','SMSController@recvSync');
 Route::get('/sms/insert/','SMSController@insert');
-Route::get('/sms/recvdebug/','SMSController@recvdebug');
 
 
 Route::get('createuser', function() {
@@ -62,7 +61,10 @@ Route::group(['before' => 'admin'], function() {
 	Route::get('admin/users/destroy/{id}', 'UserController@destroy');
 	Route::resource('admin/users', 'UserController');
 
+	Route::get('/admin/sms','SMSController@recv');
+	
 	Route::controller('admin/statistics', 'DisasterStatController');
+
 
 });
 

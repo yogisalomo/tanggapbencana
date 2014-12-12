@@ -26,11 +26,13 @@ class SMS extends Eloquent {
 		$hasil_json = json_decode($output);
 
 		if ($hasil_json == NULL) exit("Can't contact server");
+		$this->truncate();
 
 		foreach ($hasil_json->messages as $row) {
 			$temp = [];
 			if ($row->status == "received") {
-				$this->insert($this->parseCommand($row->body));
+				$parsed = $this->parseCommand($row->body);
+				$this->insertDB($parsed);
 			}
 		}
 	}
@@ -39,23 +41,16 @@ class SMS extends Eloquent {
 	public function parseCommand($text){
 		$ex = explode('_',$text);
 
-		$hasil['nama_disaster'] = "-";
-		$hasil['longitude'] = "-1";
-		$hasil['lattitude'] = "-1";
-		$hasil['judul_laporan'] = "-";
-		$hasil['isi_laporan'] = "-";
-
-		if (isset($ex[0]) || array_key_exists(0, $ex)) $hasil['nama_disaster'] = $ex[0];
-		if (isset($ex[1]) || array_key_exists(1, $ex)) $hasil['longitude'] = $ex[1];
-		if (isset($ex[2]) || array_key_exists(2, $ex)) $hasil['lattitude'] = $ex[2];
-		if (isset($ex[3]) || array_key_exists(3, $ex)) $hasil['judul_laporan'] = $ex[3];
-		if (isset($ex[4]) || array_key_exists(4, $ex)) $hasil['isi_laporan'] = $ex[4];
+		$hasil['nama_disaster'] = array_pull($ex, 0);
+		$hasil['longitude'] = array_pull($ex, 1);
+		$hasil['lattitude'] = array_pull($ex, 2);
+		$hasil['judul_laporan'] = array_pull($ex, 3);
+		$hasil['isi_laporan'] = array_pull($ex, 4);
 
 		return $hasil;
 		
 	}
-	public function insert($arr){
-			$this->fill($arr);
-			$this->save();
+	public function insertDB($arr){
+			$this->insert($arr);
 	}
 }
