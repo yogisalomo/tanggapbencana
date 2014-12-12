@@ -17,7 +17,7 @@ class SMSController extends BaseController {
 	}
 
 	public function recvSync() {
-		//$this->SMS->recvToDB();
+		$this->SMS->recvToDB();
 		echo "Sync Berhasil";
 	}
 
