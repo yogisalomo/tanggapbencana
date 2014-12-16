@@ -16,7 +16,6 @@
 		color: #18bc9c;
 		margin: 20px;
 		height:150px;
-		background-image: url(http://ginva.com/wp-content/uploads/2012/07/city-skyline-wallpapers-008.jpg);
 	}
 
 	.logo-big {
@@ -29,7 +28,6 @@
 @section('content')
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-4">
-			<div class="logo-big"></div>
 			<div class="well">
 			{{Form::open(['route' => 'sessions.store'])}}
 		

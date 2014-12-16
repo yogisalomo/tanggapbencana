@@ -27,7 +27,6 @@
                     ["{{$disaster->name}}",'{{DisasterCategory::find($disaster->disaster_category_id)->name}}','{{$disaster->start}}',{{$disaster->latitude}},{{$disaster->longitude}},{{$disaster->id}},"{{$disaster->status}}"],
                 @endforeach
             ];
-          
             for (var i = 0; i < locations.length; i++) {
               
                   var infowindow = new google.maps.InfoWindow({
